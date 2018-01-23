@@ -137,8 +137,17 @@ export class StexClient {
     executeDeviceCommands(client, deviceId, componentId, capabilityId, command, args) {
         return device.executeCommand(client, deviceId, componentId, capabilityId, command, args)
     }
-
-
+	
+    /**
+     * Returns a request-promise for the supported attribues of the specified deviceId.
+     *
+     * @param {string} deviceId - The ID of the device.
+     *
+     * @returns {Object} - The request-promise for this API call.
+     */
+	listSupportedAttributes(client, deviceId) {
+        return getSupportedAttributes(client, deviceId)
+    }
     
 
 }

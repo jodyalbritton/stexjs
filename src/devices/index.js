@@ -158,3 +158,36 @@ export function executeCommand(client, deviceId, componentId, capabilityId, comm
     return rp(options)
  }
 
+
+ /**
+ * Get supported attributes of a device.
+ *
+ * @param {Object{}} client - Client object previously instantiated
+ * @param {string} deviceId - the selected Device ID
+ * @returns {Object} - The request-promise for this API request.
+ */
+
+export function getSupportedAttributes(client, deviceId){
+	
+    let options = {
+        method: 'GET',
+        url: client.url + "devices/"+deviceId+"/[getSupportedAttributes]",
+        headers: client.headers,
+        json: true
+    }
+    
+
+    return rp(options)
+    .then(response => {
+        if (!attrAccum) {
+            attrAccum = []
+        }
+        attrAccum = attrAccum.concat(response.items)
+
+        return attrAccum
+        })
+        .catch(function(err) {
+        console.log(`Error getting attributes: ${err}`)
+    })
+	
+ }
