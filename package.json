@@ -5,7 +5,7 @@
     "author": "frankandrobot",
     "homepage": "https://github.com/frankandrobot/sample-es6-library",
     "repository": "frankandrobot/sample-es6-library",
-    "main": "dist/legacy-umd/index.js",
+    "main": "dist/legacy/index.js",
     "module": "src/index.js",
     "scripts": {
         "clean": "rimraf dist && mkdirp dist/legacy && mkdirp dist/legacy-umd",
