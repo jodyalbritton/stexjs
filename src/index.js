@@ -61,7 +61,7 @@ export class StexClient {
 
 
     listDevices(client, capability,devicesAccum) {
-        return device.list(client, capability, devicesAccum)
+        return device.list(client, capability,devicesAccum)
     }
 
     
