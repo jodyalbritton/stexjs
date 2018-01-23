@@ -121,7 +121,6 @@ export function getCapabilityStatus(client, deviceId, componentId, capabilityId)
  }
 
 
-
  /**
  * Execute Commands on a device.
  *
