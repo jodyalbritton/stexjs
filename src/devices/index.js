@@ -35,8 +35,8 @@ export function list(client, capability, url, devicesAccum) {
             return list(options, capability, response._links.next.href, devicesAccum)
         }
         return devicesAccum
-        })
-        .catch(function(err) {
+    })
+    .catch(function(err) {
         console.log(`Error getting devices: ${err}`)
     })
 }
@@ -57,6 +57,12 @@ export function getOne(client, deviceId) {
     }
 
     return rp(options)
+    .then(response => {
+        return response
+    })
+    .catch(function(err) {
+        console.log(`Error getting device: ${err}`)
+    })
 }
 
 
@@ -77,6 +83,12 @@ export function getOne(client, deviceId) {
     }
 
     return rp(options)
+    .then(response => {
+        return response
+    })
+    .catch(function(err) {
+        console.log(`Error getting device status: ${err}`)
+    })
  }
 
 
@@ -98,6 +110,12 @@ export function getComponentStatus(client, deviceId, componentId){
     }
 
     return rp(options)
+    .then(response => {
+        return response
+    })
+    .catch(function(err) {
+        console.log(`Error getting device component status: ${err}`)
+    })
  }
 
  /**
@@ -119,6 +137,12 @@ export function getCapabilityStatus(client, deviceId, componentId, capabilityId)
     }
 
     return rp(options)
+    .then(response => {
+        return response
+    })
+    .catch(function(err) {
+        console.log(`Error getting device capability status: ${err}`)
+    })
  }
 
 
