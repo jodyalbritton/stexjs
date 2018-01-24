@@ -2,8 +2,9 @@ const request = require('request')
 const rp = require('request-promise')
 
 
+
 /**
- * Gets a list of devices.
+ * Gets a list of devices
  *
  * @param {Object} client - Client object previously instantiated
  * @param {string} capability - The capability to filter by; if not specified,
@@ -17,7 +18,7 @@ const rp = require('request-promise')
 export function list(client, capability, url, devicesAccum) {
     let options = {
         method: 'GET',
-        url: client.url + "devices",
+        url: url ? url : client.url + "devices",
         headers: client.headers,
         qs: capability ? {capability: capability} : {},
         json: true

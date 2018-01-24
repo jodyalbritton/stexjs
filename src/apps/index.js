@@ -2,22 +2,23 @@ const request = require('request')
 const rp = require('request-promise')
 
 
+
 /**
- * Gets a list of locations.
+ * Gets a list of apps.
  *
  * @param {Object} client - Client object previously instantiated
  * @param {string} capability - The capability to filter by; if not specified,
- *  all locations will be returned.
+ *  all apps will be returned.
  * @param {string} url - The URL to make the request to. Used to handle paging;
  *  calling clients should not need to specify this.
- * @param {Array} locationsAccum - An accumulator for recursive API calls to
+ * @param {Array} appsAccum - An accumulator for recursive API calls to
  *  handle paged result sets. Calling clients should not need to specify this.
  * @returns {Object} - The request-promise for this API request.
  */
-export function list(client, url, locationsAccum) {
+export function list(client, url, appsAccum) {
     let options = {
         method: 'GET',
-        url: client.url + "locations",
+        url: client.url + "apps",
         headers: client.headers,
         json: true
     }
@@ -25,35 +26,36 @@ export function list(client, url, locationsAccum) {
 
     return rp(options)
     .then(response => {
-        if (!locationsAccum) {
-            locationsAccum = []
+        if (!appsAccum) {
+            appsAccum = []
         }
-        locationsAccum = locationsAccum.concat(response.items)
-        if (response._links) {
-            return getLocations(options, response._links.next.href, locationsAccum)
+        appsAccum = appsAccum.concat(response.items)
+        if (response._links.next) {
+            return list(options, response._links.next.href, appsAccum)
         }
-        return locationsAccum
+        return appsAccum
         })
         .catch(function(err) {
-        console.log(`Error getting locations: ${err}`)
+        console.log(`Error getting apps: ${err}`)
     })
 }
 
+
+
 /**
- * Gets a list of locations.
+ * Gets one apps.
  *
  * @param {Object{}} client - Client object previously instantiated
- * @param {string} locationId - The selected Location ID
+ * @param {string} appId - The selected App ID
  * @returns {Object} - The request-promise for this API request.
  */
-export function show(client, locationId) {
+export function show(client, appId) {
     let options = {
         method: 'GET',
-        url: client.url + "locations/"+locationId,
+        url: client.url + "apps/"+appId,
         headers: client.headers,
         json: true
     }
 
     return rp(options)
 }
-
