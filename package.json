@@ -1,10 +1,10 @@
 {
-  "name": "sample-es6-library",
-  "version": "0.0.2",
-  "description": "Sample ES6 library",
+  "name": "stexjs",
+  "version": "0.0.1",
+  "description": "STexJs",
   "author": "frankandrobot",
-  "homepage": "https://github.com/frankandrobot/sample-es6-library",
-  "repository": "frankandrobot/sample-es6-library",
+  "homepage": "https://github.com/jodyalbritton/stexjs",
+  "repository": "jodyalbritton/stexjs",
   "main": "dist/legacy/index.js",
   "module": "src/index.js",
   "scripts": {
