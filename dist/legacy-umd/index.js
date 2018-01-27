@@ -806,8 +806,8 @@ var StexClient = function () {
             return createDeviceSubscription(client, appId, deviceId, componentId, capability, attribute, stateChangeOnly, value);
         }
     }, {
-        key: 'deleteAppSubcriptions',
-        value: function deleteAppSubcriptions(client, appId) {
+        key: 'deleteAppSubscriptions',
+        value: function deleteAppSubscriptions$$1(client, appId) {
             return deleteAppSubscriptions(client, appId);
         }
     }]);
