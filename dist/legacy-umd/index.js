@@ -567,194 +567,235 @@ function show$1(client, locationId) {
     return rp$2(options);
 }
 
-var StexClient = function () {
-  function StexClient(access_token) {
-    _classCallCheck(this, StexClient);
+var request$3 = require('request');
+var rp$3 = require('request-promise');
 
-    this.access_token = access_token;
-    this.url = 'https://api.smartthings.com/v1/';
-    this.headers = {
-      'Authorization': 'Bearer ' + access_token,
-      'Content-type': 'application/json'
+function createDeviceSubscription(client, appId, deviceId, componentId, capability, attribute, value, stateChangeOnly, subscriptionName) {
+    var body = {
+
+        sourceType: 'DEVICE',
+        device: {
+            deviceId: deviceId,
+            componentId: componentId,
+            capability: capability,
+            attribute: attribute,
+            value: value,
+            stateChangeOnly: stateChangeOnly,
+            subscriptionName: subscriptionName
+        }
+
     };
-  }
 
-  /**
-  * Locations
-  */
+    var options = {
+        method: 'POST',
+        url: client.url + "installedapps/" + appId + "/subscriptions",
+        headers: client.headers,
+        body: body,
+        json: true
+    };
 
-  /**
-   * Gets a list of locations.
-   * @param {Object} client - Client object
-   * @param {string} capability - The capability to filter by; if not specified,
-   *  all locations will be returned.
-   * @param {Array} locationsAccum - An accumulator for recursive API calls to
-   *  handle paged result sets. Calling clients should not need to specify this.
-   * 
-   * @returns {Object} - The request-promise for this API request.
-   */
+    return rp$3(options);
+}
 
+var StexClient = function () {
+    function StexClient(access_token) {
+        _classCallCheck(this, StexClient);
 
-  _createClass(StexClient, [{
-    key: 'listLocations',
-    value: function listLocations(client, locationsAccum) {
-      return list$2(client, locationsAccum);
+        this.access_token = access_token;
+        this.url = 'https://api.smartthings.com/v1/';
+        this.headers = {
+            'Authorization': 'Bearer ' + access_token,
+            'Content-type': 'application/json'
+        };
     }
 
     /**
-     * Returns a request-promise for the status of the specified locationId.
-     *
-     * @param {string} deviceId - The ID of the location.
-     *
-     * @returns {Object} - The request-promise for this API call.
-     */
-
-  }, {
-    key: 'showLocation',
-    value: function showLocation(client, locationId) {
-      return show$1(client, locationId);
-    }
+    * Locations
+    */
 
     /**
-     * DEVICES
-     */
-
-    /**
-     * Gets a list of devices.
-     *
-     * @param {string} capability - The capability to filter by; if not specified,
-     *  all devices will be returned.
-     * @param {Array} devicesAccum - An accumulator for recursive API calls to
-     *  handle paged result sets. Calling clients should not need to specify this.
-     * @returns {Object} - The request-promise for this API request.
-     */
-
-  }, {
-    key: 'listDevices',
-    value: function listDevices(client, capability, devicesAccum) {
-      return list(client, capability, devicesAccum);
-    }
-
-    /**
-     * Returns a request-promise for the object of the specified deviceId.
-     *
-     * @param {string} deviceId - The ID of the device.
-     *
-     * @returns {Object} - The request-promise for this API call.
-     */
-
-  }, {
-    key: 'showDevice',
-    value: function showDevice(client, deviceId) {
-      return getOne(client, deviceId);
-    }
-
-    /**
-     * Returns a request-promise for the status of the specified deviceId.
-     *
-     * @param {string} deviceId - The ID of the device.
-     *
-     * @returns {Object} - The request-promise for this API call.
-     */
-
-  }, {
-    key: 'showDeviceFullStatus',
-    value: function showDeviceFullStatus(client, deviceId) {
-      return getFullStatus(client, deviceId);
-    }
-
-    /**
-     * Returns a request-promise for the status of the specified deviceId.
-     *
-     * @param {string} deviceId - The ID of the device.
-     * 
-     * @param {string} componentId - The ID of the component 
-     *
-     * @returns {Object} - The request-promise for this API call.
-     */
-
-  }, {
-    key: 'showDeviceComponentStatus',
-    value: function showDeviceComponentStatus(client, deviceId, component) {
-      return getComponentStatus(client, deviceId, component);
-    }
-
-    /**
-     * Returns a request-promise for the status of the specified deviceId.
-     *
-     * @param {string} deviceId - The ID of the device.
-     * 
-     * @param {string} componentId - The ID of the component 
-     * 
-     * @param {string} capabilityId - The ID of the capability 
-     *
-     * @returns {Object} - The request-promise for this API call.
-     */
-
-  }, {
-    key: 'showDeviceCapabilityStatus',
-    value: function showDeviceCapabilityStatus(client, deviceId, componentId, capabilityId) {
-      return getCapabilityStatus(client, deviceId, componentId, capabilityId);
-    }
-
-    /**
-     * Returns a request-promise for the status of the specified deviceId.
-     *
-     * @param {string} deviceId - The ID of the device.
-     * 
-     * @param {string} componentId - The ID of the component 
-     * 
-     * @param {string} capabilityId - The ID of the capability 
-     * 
-     * @param {string} command - the command
-     * 
-     * @param {Array} args - the command arguments
-     *
-     * @returns {Object} - The request-promise for this API call.
-     */
-
-  }, {
-    key: 'executeDeviceCommands',
-    value: function executeDeviceCommands(client, deviceId, componentId, capabilityId, command, args) {
-      return executeCommand(client, deviceId, componentId, capabilityId, command, args);
-    }
-
-    /**
-     * Apps
-     */
-
-    /**
-     * Gets a list of apps.
+     * Gets a list of locations.
      * @param {Object} client - Client object
-     *  all apps will be returned.
-     * @param {Array} appsAccum - An accumulator for recursive API calls to
+     * @param {string} capability - The capability to filter by; if not specified,
+     *  all locations will be returned.
+     * @param {Array} locationsAccum - An accumulator for recursive API calls to
      *  handle paged result sets. Calling clients should not need to specify this.
      * 
      * @returns {Object} - The request-promise for this API request.
      */
 
-  }, {
-    key: 'listApps',
-    value: function listApps(client, appsAccum) {
-      return list$1(client, appsAccum);
-    }
 
-    /**
-     * Returns a request-promise for the status of the specified appId.
-     *
-     * @param {string} appsId - The ID of the app.
-     *
-     * @returns {Object} - The request-promise for this API call.
-     */
+    _createClass(StexClient, [{
+        key: 'listLocations',
+        value: function listLocations(client, locationsAccum) {
+            return list$2(client, locationsAccum);
+        }
 
-  }, {
-    key: 'showApp',
-    value: function showApp(client, appId) {
-      return show(client, appId);
-    }
-  }]);
+        /**
+         * Returns a request-promise for the status of the specified locationId.
+         *
+         * @param {string} deviceId - The ID of the location.
+         *
+         * @returns {Object} - The request-promise for this API call.
+         */
 
-  return StexClient;
+    }, {
+        key: 'showLocation',
+        value: function showLocation(client, locationId) {
+            return show$1(client, locationId);
+        }
+
+        /**
+         * DEVICES
+         */
+
+        /**
+         * Gets a list of devices.
+         *
+         * @param {string} capability - The capability to filter by; if not specified,
+         *  all devices will be returned.
+         * @param {Array} devicesAccum - An accumulator for recursive API calls to
+         *  handle paged result sets. Calling clients should not need to specify this.
+         * @returns {Object} - The request-promise for this API request.
+         */
+
+    }, {
+        key: 'listDevices',
+        value: function listDevices(client, capability, devicesAccum) {
+            return list(client, capability, devicesAccum);
+        }
+
+        /**
+         * Returns a request-promise for the object of the specified deviceId.
+         *
+         * @param {string} deviceId - The ID of the device.
+         *
+         * @returns {Object} - The request-promise for this API call.
+         */
+
+    }, {
+        key: 'showDevice',
+        value: function showDevice(client, deviceId) {
+            return getOne(client, deviceId);
+        }
+
+        /**
+         * Returns a request-promise for the status of the specified deviceId.
+         *
+         * @param {string} deviceId - The ID of the device.
+         *
+         * @returns {Object} - The request-promise for this API call.
+         */
+
+    }, {
+        key: 'showDeviceFullStatus',
+        value: function showDeviceFullStatus(client, deviceId) {
+            return getFullStatus(client, deviceId);
+        }
+
+        /**
+         * Returns a request-promise for the status of the specified deviceId.
+         *
+         * @param {string} deviceId - The ID of the device.
+         * 
+         * @param {string} componentId - The ID of the component 
+         *
+         * @returns {Object} - The request-promise for this API call.
+         */
+
+    }, {
+        key: 'showDeviceComponentStatus',
+        value: function showDeviceComponentStatus(client, deviceId, component) {
+            return getComponentStatus(client, deviceId, component);
+        }
+
+        /**
+         * Returns a request-promise for the status of the specified deviceId.
+         *
+         * @param {string} deviceId - The ID of the device.
+         * 
+         * @param {string} componentId - The ID of the component 
+         * 
+         * @param {string} capabilityId - The ID of the capability 
+         *
+         * @returns {Object} - The request-promise for this API call.
+         */
+
+    }, {
+        key: 'showDeviceCapabilityStatus',
+        value: function showDeviceCapabilityStatus(client, deviceId, componentId, capabilityId) {
+            return getCapabilityStatus(client, deviceId, componentId, capabilityId);
+        }
+
+        /**
+         * Returns a request-promise for the status of the specified deviceId.
+         *
+         * @param {string} deviceId - The ID of the device.
+         * 
+         * @param {string} componentId - The ID of the component 
+         * 
+         * @param {string} capabilityId - The ID of the capability 
+         * 
+         * @param {string} command - the command
+         * 
+         * @param {Array} args - the command arguments
+         *
+         * @returns {Object} - The request-promise for this API call.
+         */
+
+    }, {
+        key: 'executeDeviceCommands',
+        value: function executeDeviceCommands(client, deviceId, componentId, capabilityId, command, args) {
+            return executeCommand(client, deviceId, componentId, capabilityId, command, args);
+        }
+
+        /**
+         * Apps
+         */
+
+        /**
+         * Gets a list of apps.
+         * @param {Object} client - Client object
+         *  all apps will be returned.
+         * @param {Array} appsAccum - An accumulator for recursive API calls to
+         *  handle paged result sets. Calling clients should not need to specify this.
+         * 
+         * @returns {Object} - The request-promise for this API request.
+         */
+
+    }, {
+        key: 'listApps',
+        value: function listApps(client, appsAccum) {
+            return list$1(client, appsAccum);
+        }
+
+        /**
+         * Returns a request-promise for the status of the specified appId.
+         *
+         * @param {string} appsId - The ID of the app.
+         *
+         * @returns {Object} - The request-promise for this API call.
+         */
+
+    }, {
+        key: 'showApp',
+        value: function showApp(client, appId) {
+            return show(client, appId);
+        }
+
+        /**
+        * Subcriptions
+        */
+
+    }, {
+        key: 'createDeviceSubscription',
+        value: function createDeviceSubscription$$1(client, appId, deviceId, componentId, capability, attribute, value, stateChangeOnly, subscriptionName) {
+
+            return createDeviceSubscription(client, appId, deviceId, componentId, capability, attribute, value, stateChangeOnly, subscriptionName);
+        }
+    }]);
+
+    return StexClient;
 }();
 
 exports.StexClient = StexClient;

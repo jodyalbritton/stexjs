@@ -2,7 +2,7 @@ import * as devices from './devices'
 import * as apps from './apps'
 import * as locations from './locations'
 import * as installedApps from './installedapps'
-
+import * as subcriptions from './subscriptions'
 
 export class StexClient {
     constructor(access_token) {
@@ -168,6 +168,40 @@ export class StexClient {
     showApp(client, appId) {
         return apps.show(client, appId)
     }
+
+
+
+    /**
+    * Subcriptions
+    */
+
+
+    createDeviceSubscription(
+        client, 
+        appId, 
+        deviceId, 
+        componentId, 
+        capability, 
+        attribute, 
+        value, 
+        stateChangeOnly, 
+        subscriptionName){
+            
+        return(
+                subcriptions.createDeviceSubscription(
+                    client, 
+                    appId, 
+                    deviceId, 
+                    componentId, 
+                    capability, 
+                    attribute, 
+                    value, 
+                    stateChangeOnly, 
+                    subscriptionName
+                )
+            )
+        }
+
 
     
 
