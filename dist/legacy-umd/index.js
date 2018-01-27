@@ -597,6 +597,19 @@ function createDeviceSubscription(client, appId, deviceId, componentId, capabili
     return rp$3(options);
 }
 
+function deleteAppSubscriptions(client, appId) {
+
+    var options = {
+        method: 'DELETE',
+        url: client.url + "installedapps/" + appId + "/subscriptions",
+        headers: client.headers,
+        body: body,
+        json: true
+    };
+
+    return rp$3(options);
+}
+
 var StexClient = function () {
     function StexClient(access_token) {
         _classCallCheck(this, StexClient);
@@ -792,6 +805,11 @@ var StexClient = function () {
         value: function createDeviceSubscription$$1(client, appId, deviceId, componentId, capability, attribute, value, stateChangeOnly, subscriptionName) {
 
             return createDeviceSubscription(client, appId, deviceId, componentId, capability, attribute, value, stateChangeOnly, subscriptionName);
+        }
+    }, {
+        key: 'deleteAppSubcriptions',
+        value: function deleteAppSubcriptions(client, appId) {
+            return deleteAppSubscriptions(client, appId);
         }
     }]);
 

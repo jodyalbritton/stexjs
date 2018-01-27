@@ -200,9 +200,9 @@ export class StexClient {
                     subscriptionName
                 )
             )
-        }
-
-
+        }    
     
-
+    deleteAppSubcriptions(client, appId) {
+        return(subcriptions.deleteAppSubscriptions(client,appId))
+    }
 }

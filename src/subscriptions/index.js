@@ -39,3 +39,17 @@ export function createDeviceSubscription(
 
     return rp(options)
  }
+
+
+ export function deleteAppSubscriptions(client, appId){
+
+    let options = {
+        method: 'DELETE',
+        url: client.url + "installedapps/"+appId+"/subscriptions",
+        headers: client.headers,
+        body: body,
+        json: true
+    }
+
+    return rp(options)
+ }
