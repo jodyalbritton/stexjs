@@ -570,7 +570,7 @@ function show$1(client, locationId) {
 var request$3 = require('request');
 var rp$3 = require('request-promise');
 
-function createDeviceSubscription(client, appId, deviceId, componentId, capability, attribute, value, stateChangeOnly, subscriptionName) {
+function createDeviceSubscription(client, appId, deviceId, componentId, capability, attribute, stateChangeOnly, value) {
     var body = {
 
         sourceType: 'DEVICE',
@@ -580,8 +580,7 @@ function createDeviceSubscription(client, appId, deviceId, componentId, capabili
             capability: capability,
             attribute: attribute,
             value: value,
-            stateChangeOnly: stateChangeOnly,
-            subscriptionName: subscriptionName
+            stateChangeOnly: stateChangeOnly
         }
 
     };
@@ -802,9 +801,9 @@ var StexClient = function () {
 
     }, {
         key: 'createDeviceSubscription',
-        value: function createDeviceSubscription$$1(client, appId, deviceId, componentId, capability, attribute, value, stateChangeOnly, subscriptionName) {
+        value: function createDeviceSubscription$$1(client, appId, deviceId, componentId, capability, attribute, stateChangeOnly, value) {
 
-            return createDeviceSubscription(client, appId, deviceId, componentId, capability, attribute, value, stateChangeOnly, subscriptionName);
+            return createDeviceSubscription(client, appId, deviceId, componentId, capability, attribute, stateChangeOnly, value);
         }
     }, {
         key: 'deleteAppSubcriptions',

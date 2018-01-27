@@ -9,9 +9,8 @@ export function createDeviceSubscription(
     componentId, 
     capability, 
     attribute, 
-    value, 
-    stateChangeOnly, 
-    subscriptionName){
+    stateChangeOnly,
+    value){
     let body = {
         
         sourceType : 'DEVICE',
@@ -22,7 +21,6 @@ export function createDeviceSubscription(
             attribute: attribute,
             value: value,
             stateChangeOnly: stateChangeOnly,
-            subscriptionName: subscriptionName
         }
 
     }

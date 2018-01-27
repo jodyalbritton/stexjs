@@ -182,10 +182,9 @@ export class StexClient {
         deviceId, 
         componentId, 
         capability, 
-        attribute, 
-        value, 
-        stateChangeOnly, 
-        subscriptionName){
+        attribute,  
+        stateChangeOnly,
+        value){
             
         return(
                 subcriptions.createDeviceSubscription(
@@ -195,9 +194,8 @@ export class StexClient {
                     componentId, 
                     capability, 
                     attribute, 
-                    value, 
-                    stateChangeOnly, 
-                    subscriptionName
+                    stateChangeOnly,
+                    value 
                 )
             )
         }    

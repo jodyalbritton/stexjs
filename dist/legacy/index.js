@@ -101,9 +101,9 @@ var StexClient = exports.StexClient = function () {
         }
     }, {
         key: 'createDeviceSubscription',
-        value: function createDeviceSubscription(client, appId, deviceId, componentId, capability, attribute, value, stateChangeOnly, subscriptionName) {
+        value: function createDeviceSubscription(client, appId, deviceId, componentId, capability, attribute, stateChangeOnly, value) {
 
-            return subcriptions.createDeviceSubscription(client, appId, deviceId, componentId, capability, attribute, value, stateChangeOnly, subscriptionName);
+            return subcriptions.createDeviceSubscription(client, appId, deviceId, componentId, capability, attribute, stateChangeOnly, value);
         }
     }, {
         key: 'deleteAppSubcriptions',
