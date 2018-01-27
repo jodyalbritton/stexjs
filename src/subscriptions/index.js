@@ -45,7 +45,6 @@ export function createDeviceSubscription(
         method: 'DELETE',
         url: client.url + "installedapps/"+appId+"/subscriptions",
         headers: client.headers,
-        body: body,
         json: true
     }
 
