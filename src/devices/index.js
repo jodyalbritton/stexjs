@@ -181,5 +181,11 @@ export function executeCommand(client, deviceId, componentId, capabilityId, comm
 
 
     return rp(options)
+    .then(response => {
+      return response
+    })
+    .catch(function(err) {
+        console.log(`Error executing command: ${err}`)
+    })
  }
 

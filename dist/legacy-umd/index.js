@@ -429,6 +429,8 @@ function getCapabilityStatus(client, deviceId, componentId, capabilityId) {
 */
 
 function executeCommand(client, deviceId, componentId, capabilityId, command, args) {
+    var _this6 = this;
+
     var body = {
         commands: [{
             component: componentId,
@@ -446,7 +448,13 @@ function executeCommand(client, deviceId, componentId, capabilityId, command, ar
         json: true
     };
 
-    return rp(options);
+    return rp(options).then(function (response) {
+        _newArrowCheck(this, _this6);
+
+        return response;
+    }.bind(this)).catch(function (err) {
+        console.log('Error executing command: ' + String(err));
+    });
 }
 
 var request$1 = require('request');
