@@ -3,6 +3,7 @@ import * as apps from './apps'
 import * as locations from './locations'
 import * as installedApps from './installedapps'
 import * as subcriptions from './subscriptions'
+import * as scenes from './scenes'
 
 export class StexClient {
     constructor(access_token) {
@@ -169,12 +170,42 @@ export class StexClient {
         return apps.show(client, appId)
     }
 
+    /**
+    * Installed Apps
+    */
 
+
+    /**
+     * Scenes 
+    */
+
+    /**
+     * Gets a list of scenes.
+     * @param {Object} client - Client object
+     * @param {string} locationId - The location to filter by; if not specified,
+     *  all scenes will be returned.
+     * @param {Array} scenesAccum - An accumulator for recursive API calls to
+     *  handle paged result sets. Calling clients should not need to specify this.
+     * 
+     * @returns {Object} - The request-promise for this API request.
+     */
+    listScenes(client, scenesAccum) {
+        return scenes.list(client, scenesAccum)
+    }
+
+    /**
+     *
+     * @param {string} sceneId - The ID of the device.
+     * 
+     * @returns {Object} - The request-promise for this API call.
+     */
+    executeScene(client, sceneId) {
+        return scenes.executeCommand(client, sceneId)
+    }
 
     /**
     * Subcriptions
     */
-
 
     createDeviceSubscription(
         client, 
