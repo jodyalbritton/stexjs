@@ -9,7 +9,7 @@
   "module": "src/index.js",
   "scripts": {
     "clean": "rimraf dist && mkdirp dist/legacy && mkdirp dist/legacy-umd",
-    "build:legacy": "BABEL_ENV=legacy babel src --source-maps --no-comments --out-dir dist/legacy/",
+    "build:legacy": "set BABEL_ENV=legacy && npx babel src -d dist/legacy -s --no-comments",
     "build": "npm run clean && run-p build:**"
   },
   "license": "MIT",
