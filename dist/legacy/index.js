@@ -33,6 +33,10 @@ var _subscriptions = require('./subscriptions');
 
 var subcriptions = _interopRequireWildcard(_subscriptions);
 
+var _scenes = require('./scenes');
+
+var scenes = _interopRequireWildcard(_scenes);
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -98,6 +102,31 @@ var StexClient = exports.StexClient = function () {
         key: 'showApp',
         value: function showApp(client, appId) {
             return apps.show(client, appId);
+        }
+    }, {
+        key: 'createWebhookApp',
+        value: function createWebhookApp(client, appName, displayName, description, singleInstance, targetUrl) {
+            return apps.createWebhookApp(client, appName, displayName, description, singleInstance, targetUrl);
+        }
+    }, {
+        key: 'listInstalledApps',
+        value: function listInstalledApps(client, appsAccum) {
+            return installedApps.list(client, appsAccum);
+        }
+    }, {
+        key: 'showInstalledApp',
+        value: function showInstalledApp(client, appId) {
+            return installedApps.show(client, appId);
+        }
+    }, {
+        key: 'listScenes',
+        value: function listScenes(client, scenesAccum) {
+            return scenes.list(client, scenesAccum);
+        }
+    }, {
+        key: 'executeScene',
+        value: function executeScene(client, sceneId) {
+            return scenes.executeCommand(client, sceneId);
         }
     }, {
         key: 'createDeviceSubscription',

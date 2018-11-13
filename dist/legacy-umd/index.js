@@ -464,8 +464,7 @@ var rp$1 = require('request-promise');
  * Gets a list of apps.
  *
  * @param {Object} client - Client object previously instantiated
- * @param {string} capability - The capability to filter by; if not specified,
- *  all apps will be returned.
+ * 
  * @param {string} url - The URL to make the request to. Used to handle paging;
  *  calling clients should not need to specify this.
  * @param {Array} appsAccum - An accumulator for recursive API calls to
@@ -514,6 +513,48 @@ function show(client, appId) {
     };
 
     return rp$1(options);
+}
+
+/**
+ * Create a webhook smartapp
+ * 
+ * @param {Object{}} client - Client object previously instantiated 
+ * @param {string} appName - A globally unique, developer-defined identifier for an app.
+ * @param {string} displayName - A default display name for an app.
+ * @param {string} description - A default description for an app.
+ * @param {boolean} singleInstance - Inform the installation systems that a particular app can only be installed once within a user's account.
+ * @param {string} targetUrl - The callback url for the app
+*/
+
+function createWebhookApp(client, appName, displayName, description, singleInstance, targetUrl) {
+    var _this2 = this;
+
+    var body = {
+        appName: appName,
+        displayName: displayName,
+        description: description,
+        singleInstance: singleInstance,
+        appType: "WEBHOOK_SMART_APP",
+        webhookSmartApp: {
+            targetUrl: targetUrl
+        }
+    };
+
+    var options = {
+        method: 'POST',
+        url: client.url + "apps",
+        headers: client.headers,
+        body: body,
+        json: true
+    };
+
+    return rp$1(options).then(function (response) {
+        _newArrowCheck(this, _this2);
+
+        return response;
+    }.bind(this)).catch(function (err) {
+        console.log('Error installing app: ' + String(err));
+    });
 }
 
 var request$2 = require('request');
@@ -578,6 +619,64 @@ function show$1(client, locationId) {
 var request$3 = require('request');
 var rp$3 = require('request-promise');
 
+/**
+ * Gets a list of installed apps.
+ *
+ * @param {Object} client - Client object previously instantiated
+ * 
+ * @param {string} url - The URL to make the request to. Used to handle paging;
+ *  calling clients should not need to specify this.
+ * @param {Array} appsAccum - An accumulator for recursive API calls to
+ *  handle paged result sets. Calling clients should not need to specify this.
+ * @returns {Object} - The request-promise for this API request.
+ */
+function list$3(client, url, appsAccum) {
+    var _this = this;
+
+    var options = {
+        method: 'GET',
+        url: client.url + "installedapps",
+        headers: client.headers,
+        json: true
+    };
+
+    return rp$3(options).then(function (response) {
+        _newArrowCheck(this, _this);
+
+        if (!appsAccum) {
+            appsAccum = [];
+        }
+        appsAccum = appsAccum.concat(response.items);
+        if (response._links.next) {
+            return list$3(options, response._links.next.href, appsAccum);
+        }
+        return appsAccum;
+    }.bind(this)).catch(function (err) {
+        console.log('Error getting apps: ' + String(err));
+    });
+}
+
+/**
+ * Gets one installed.
+ *
+ * @param {Object{}} client - Client object previously instantiated
+ * @param {string} appId - The selected App ID
+ * @returns {Object} - The request-promise for this API request.
+ */
+function show$2(client, appId) {
+    var options = {
+        method: 'GET',
+        url: client.url + "installedapps/" + appId,
+        headers: client.headers,
+        json: true
+    };
+
+    return rp$3(options);
+}
+
+var request$4 = require('request');
+var rp$4 = require('request-promise');
+
 function createDeviceSubscription(client, appId, deviceId, componentId, capability, attribute, stateChangeOnly, value) {
     var body = {
 
@@ -601,7 +700,7 @@ function createDeviceSubscription(client, appId, deviceId, componentId, capabili
         json: true
     };
 
-    return rp$3(options);
+    return rp$4(options);
 }
 
 function deleteAppSubscriptions(client, appId) {
@@ -613,7 +712,78 @@ function deleteAppSubscriptions(client, appId) {
         json: true
     };
 
-    return rp$3(options);
+    return rp$4(options);
+}
+
+var request$5 = require('request');
+var rp$5 = require('request-promise');
+
+/**
+ * Gets a list of scenes.
+ *
+ * @param {Object} client - Client object previously instantiated
+ * @param {string} locationId - The location to filter by; if not specified,
+ *  all scenes will be returned.
+ * @param {string} url - The URL to make the request to. Used to handle paging;
+ *  calling clients should not need to specify this.
+ * @param {Array} scenesAccum - An accumulator for recursive API calls to
+ *  handle paged result sets. Calling clients should not need to specify this.
+ * @returns {Object} - The request-promise for this API request.
+ */
+function list$4(client, url, scenesAccum) {
+    var _this = this;
+
+    var options = {
+        method: 'GET',
+        url: client.url + "scenes",
+        headers: client.headers,
+        json: true
+    };
+
+    return rp$5(options).then(function (response) {
+        _newArrowCheck(this, _this);
+
+        if (!scenesAccum) {
+            scenesAccum = [];
+        }
+        scenesAccum = scenesAccum.concat(response.items);
+        if (response._links) {
+            return getScenes(options, response._links.next.href, scenesAccum);
+        }
+        return scenesAccum;
+    }.bind(this)).catch(function (err) {
+        console.log('Error getting scenes: ' + String(err));
+    });
+}
+
+/**
+* Execute Scene
+*
+* @param {Object{}} client - Client object previously instantiated
+* @param {string} sceneId - the selected Device ID
+* @returns {Object} - The request-promise for this API request.
+*/
+
+function executeCommand$1(client, sceneId) {
+    var _this2 = this;
+
+    var body = {};
+
+    var options = {
+        method: 'POST',
+        url: client.url + "scenes/" + sceneId + "/execute",
+        headers: client.headers,
+        body: body,
+        json: true
+    };
+
+    return rp$5(options).then(function (response) {
+        _newArrowCheck(this, _this2);
+
+        return response;
+    }.bind(this)).catch(function (err) {
+        console.log('Error executing scene: ' + String(err));
+    });
 }
 
 var StexClient = function () {
@@ -770,7 +940,7 @@ var StexClient = function () {
 
         /**
          * Apps
-         */
+        */
 
         /**
          * Gets a list of apps.
@@ -800,6 +970,96 @@ var StexClient = function () {
         key: 'showApp',
         value: function showApp(client, appId) {
             return show(client, appId);
+        }
+
+        /**
+        * Create a webhook smartapp
+        * 
+        * @param {Object{}} client - Client object previously instantiated 
+        * 
+        * @param {string} appName - A globally unique, developer-defined identifier for an app.
+        * 
+        * @param {string} displayName - A default display name for an app.
+        * 
+        * @param {string} description - A default description for an app.
+        * 
+        * @param {boolean} singleInstance - Inform the installation systems that a particular app can only be installed once within a user's account.
+        * 
+        * @param {string} targetUrl - The callback url for the app
+        */
+
+    }, {
+        key: 'createWebhookApp',
+        value: function createWebhookApp$$1(client, appName, displayName, description, singleInstance, targetUrl) {
+            return createWebhookApp(client, appName, displayName, description, singleInstance, targetUrl);
+        }
+
+        /**
+         * Installed Apps
+        */
+
+        /**
+         * Gets a list of installed apps.
+         * @param {Object} client - Client object
+         *  all apps will be returned.
+         * @param {Array} appsAccum - An accumulator for recursive API calls to
+         *  handle paged result sets. Calling clients should not need to specify this.
+         * 
+         * @returns {Object} - The request-promise for this API request.
+         */
+
+    }, {
+        key: 'listInstalledApps',
+        value: function listInstalledApps(client, appsAccum) {
+            return list$3(client, appsAccum);
+        }
+
+        /**
+         * Returns a request-promise for the status of the specified appId.
+         *
+         * @param {string} appsId - The ID of the app.
+         *
+         * @returns {Object} - The request-promise for this API call.
+         */
+
+    }, {
+        key: 'showInstalledApp',
+        value: function showInstalledApp(client, appId) {
+            return show$2(client, appId);
+        }
+
+        /**
+         * Scenes 
+        */
+
+        /**
+         * Gets a list of scenes.
+         * @param {Object} client - Client object
+         * @param {string} locationId - The location to filter by; if not specified,
+         *  all scenes will be returned.
+         * @param {Array} scenesAccum - An accumulator for recursive API calls to
+         *  handle paged result sets. Calling clients should not need to specify this.
+         * 
+         * @returns {Object} - The request-promise for this API request.
+        */
+
+    }, {
+        key: 'listScenes',
+        value: function listScenes(client, scenesAccum) {
+            return list$4(client, scenesAccum);
+        }
+
+        /**
+         *
+         * @param {string} sceneId - The ID of the device.
+         * 
+         * @returns {Object} - The request-promise for this API call.
+         */
+
+    }, {
+        key: 'executeScene',
+        value: function executeScene(client, sceneId) {
+            return executeCommand$1(client, sceneId);
         }
 
         /**

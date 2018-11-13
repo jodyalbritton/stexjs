@@ -10,6 +10,7 @@ var _newArrowCheck3 = _interopRequireDefault(_newArrowCheck2);
 
 exports.list = list;
 exports.show = show;
+exports.createWebhookApp = createWebhookApp;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -51,5 +52,36 @@ function show(client, appId) {
     };
 
     return rp(options);
+}
+
+function createWebhookApp(client, appName, displayName, description, singleInstance, targetUrl) {
+    var _this2 = this;
+
+    var body = {
+        appName: appName,
+        displayName: displayName,
+        description: description,
+        singleInstance: singleInstance,
+        appType: "WEBHOOK_SMART_APP",
+        webhookSmartApp: {
+            targetUrl: targetUrl
+        }
+    };
+
+    var options = {
+        method: 'POST',
+        url: client.url + "apps",
+        headers: client.headers,
+        body: body,
+        json: true
+    };
+
+    return rp(options).then(function (response) {
+        (0, _newArrowCheck3.default)(this, _this2);
+
+        return response;
+    }.bind(this)).catch(function (err) {
+        console.log('Error installing app: ' + String(err));
+    });
 }
 //# sourceMappingURL=index.js.map
