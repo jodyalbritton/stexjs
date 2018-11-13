@@ -15,10 +15,10 @@ export default {
   input: 'src/index.js',
   output: {
     file: 'dist/legacy-umd/index.js',
-    format: 'umd'
+    format: 'umd',
+    name: 'sample-es6-library',
+    sourcemap: true
   },
-  name: 'sample-es6-library',
-  sourcemap: true,
   plugins: [
     sourcemaps(),
     babel(babelConfig),
