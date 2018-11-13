@@ -23,7 +23,8 @@ node
 > Stex = require("./dist/legacy/index.js")
 > client = new Stex.StexClient("your-personal-access-token")
 > let results = []
-> devices = client.listDevices(client, []).then(function(response){ results = response})
+> devices = client.listDevices(client, "switch", "", []).then(function(response){ results = response})
+> results
 ```
 
 results should be an array of devices. 

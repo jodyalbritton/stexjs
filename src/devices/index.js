@@ -20,10 +20,10 @@ export function list(client, capability, url, devicesAccum) {
         method: 'GET',
         url: url ? url : client.url + "devices",
         headers: client.headers,
-        qs: capability ? {capability: capability} : {},
+        qs: capability ? {"capability": capability} : {},
         json: true
     }
-    
+    console.log(options)
 
     return rp(options)
     .then(response => {
