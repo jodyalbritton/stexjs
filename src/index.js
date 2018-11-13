@@ -143,7 +143,7 @@ export class StexClient {
 
     /**
      * Apps
-     */
+    */
 
     /**
      * Gets a list of apps.
@@ -170,11 +170,55 @@ export class StexClient {
         return apps.show(client, appId)
     }
 
+
+     /**
+    * Create a webhook smartapp
+    * 
+    * @param {Object{}} client - Client object previously instantiated 
+    * 
+    * @param {string} appName - A globally unique, developer-defined identifier for an app.
+    * 
+    * @param {string} displayName - A default display name for an app.
+    * 
+    * @param {string} description - A default description for an app.
+    * 
+    * @param {boolean} singleInstance - Inform the installation systems that a particular app can only be installed once within a user's account.
+    * 
+    * @param {string} targetUrl - The callback url for the app
+    */
+    createWebhookApp(client, appName, displayName, description, singleInstance, targetUrl) {
+        return apps.createWebhookApp(client, appName, displayName, description, singleInstance, targetUrl)
+    }
+
     /**
-    * Installed Apps
+     * Installed Apps
     */
 
+    /**
+     * Gets a list of installed apps.
+     * @param {Object} client - Client object
+     *  all apps will be returned.
+     * @param {Array} appsAccum - An accumulator for recursive API calls to
+     *  handle paged result sets. Calling clients should not need to specify this.
+     * 
+     * @returns {Object} - The request-promise for this API request.
+     */
+    listInstalledApps(client, appsAccum) {
+        return installedApps.list(client, appsAccum)
+    }
 
+    
+    /**
+     * Returns a request-promise for the status of the specified appId.
+     *
+     * @param {string} appsId - The ID of the app.
+     *
+     * @returns {Object} - The request-promise for this API call.
+     */
+    showInstalledApp(client, appId) {
+        return installedApps.show(client, appId)
+    }
+    
     /**
      * Scenes 
     */
@@ -188,7 +232,7 @@ export class StexClient {
      *  handle paged result sets. Calling clients should not need to specify this.
      * 
      * @returns {Object} - The request-promise for this API request.
-     */
+    */
     listScenes(client, scenesAccum) {
         return scenes.list(client, scenesAccum)
     }

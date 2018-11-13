@@ -7,8 +7,7 @@ const rp = require('request-promise')
  * Gets a list of apps.
  *
  * @param {Object} client - Client object previously instantiated
- * @param {string} capability - The capability to filter by; if not specified,
- *  all apps will be returned.
+ * 
  * @param {string} url - The URL to make the request to. Used to handle paging;
  *  calling clients should not need to specify this.
  * @param {Array} appsAccum - An accumulator for recursive API calls to
@@ -59,3 +58,46 @@ export function show(client, appId) {
 
     return rp(options)
 }
+
+
+/**
+ * Create a webhook smartapp
+ * 
+ * @param {Object{}} client - Client object previously instantiated 
+ * @param {string} appName - A globally unique, developer-defined identifier for an app.
+ * @param {string} displayName - A default display name for an app.
+ * @param {string} description - A default description for an app.
+ * @param {boolean} singleInstance - Inform the installation systems that a particular app can only be installed once within a user's account.
+ * @param {string} targetUrl - The callback url for the app
+*/
+
+
+export function createWebhookApp(client, appName, displayName, description, singleInstance, targetUrl) {
+    let body = {
+        appName: appName, 
+        displayName: displayName,
+        description: description,
+        singleInstance: singleInstance,
+        appType: "WEBHOOK_SMART_APP",
+        webhookSmartApp: {
+            targetUrl
+        }
+    }
+    
+    let options = {
+        method: 'POST',
+        url: client.url + "apps",
+        headers: client.headers,
+        body: body,
+        json: true
+    }
+
+    return rp(options)
+    .then(response => {
+      return response
+    })
+    .catch(function(err) {
+        console.log(`Error installing app: ${err}`)
+    })
+}
+
