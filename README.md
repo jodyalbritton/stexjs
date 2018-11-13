@@ -27,5 +27,16 @@ node
 > results
 ```
 
+### As a module
+
+```
+import * as Stex from 'stexjs'
+const client = new Stex.StexClient(token)
+
+client.listDevices(client, 'powerMeter').then((deviceList) => {
+    console.log(deviceList)
+})
+```
+
 results should be an array of devices. 
 
